@@ -1,0 +1,29 @@
+{
+  "name": "rabustack",
+  "description": "Plan (adaptive-plan-mode), ship (ship-pr), and test (user-tester) skills for Claude Code.",
+  "version": "1.5.0",
+  "author": {
+    "name": "Rabuno",
+    "url": "https://github.com/Rabuno"
+  },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/adaptive-plan-mode-reminder.js\""
+          },
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/advisor-trigger.js\""
+          },
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/planship-mode-reminder.js\""
+          }
+        ]
+      }
+    ]
+  }
+}

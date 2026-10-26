@@ -1,0 +1,28 @@
+{
+  "name": "rabustack",
+  "version": "1.5.0",
+  "description": "Plan, ship, and test your code with adaptive planning, PR lifecycle guidance, and browser testing skills.",
+  "author": {
+    "name": "Rabuno",
+    "url": "https://github.com/Rabuno"
+  },
+  "homepage": "https://github.com/Rabuno/rabustack",
+  "repository": "https://github.com/Rabuno/rabustack",
+  "license": "MIT",
+  "keywords": ["planning", "code-review", "shipping", "testing", "developer-tools"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "rabustack",
+    "shortDescription": "Plan, ship, and test code with discipline",
+    "longDescription": "A plan, ship, and test methodology packaged as reusable skills for coding agents.",
+    "developerName": "Rabuno",
+    "category": "Productivity",
+    "capabilities": ["Write"],
+    "websiteURL": "https://github.com/Rabuno/rabustack",
+    "defaultPrompt": [
+      "Make a plan before implementing this change.",
+      "Review this change before shipping it.",
+      "Test this web flow like a demanding user."
+    ]
+  }
+}
