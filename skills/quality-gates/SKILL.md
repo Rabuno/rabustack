@@ -10,7 +10,7 @@ Run from the project root on the task's changed files. Read your stack's file fi
 Tools run via `uvx` at reviewed pins, flags as written below (no `--help` needed). `scripts/mutate.sh` repeats the mutator pin: bump both together. If your agent runtime blocks the first fetch of a pinned tool, get the user's approval, and run each `uvx` call alone in its batch.
 
 ```bash
-CRAPPER=git+https://github.com/unclebob/crapper@9f1bead
+CRAPPER=git+https://github.com/unclebob/crapper@6fd92c4
 DRYER=git+https://github.com/unclebob/dryer@66ff6d2
 BASE=$(git merge-base HEAD origin/<target>)   # uncommitted-only work: BASE=HEAD
 mapfile -t FILES < <(bash <skill>/scripts/changed-files.sh "$BASE")   # always expand as "${FILES[@]}"
