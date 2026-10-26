@@ -12,7 +12,7 @@ for f in "$@"; do
   args=(); [ "$L" = NEW ] || args=(--lines "$L")
   log="$OUT/$(tr '/[]' '___' <<<"$f").log"
   before=$(git hash-object -- "$f"); s=$(date +%s)
-  uvx --from git+https://github.com/unclebob/mutator@c57f038 --with git+https://github.com/unclebob/crapper@9f1bead \
+  uvx --from git+https://github.com/unclebob/mutator@a5a0cb8 --with git+https://github.com/unclebob/crapper@6fd92c4 \
     mutator --use-existing-coverage --max-workers "$W" --test-command "$CMD" "$f" "${args[@]}" > "$log" 2>&1
   rc=$?
   counts=$(grep -oE '^[A-Z]+ ' "$log" | sort | uniq -c | awk '{printf "%s=%s ", $2, $1}')

@@ -10,7 +10,7 @@ Run from the project root on the task's changed files. Read your stack's file fi
 Tools run via `uvx` at reviewed pins, flags as written below (no `--help` needed). `scripts/mutate.sh` repeats the mutator pin: bump both together. If your agent runtime blocks the first fetch of a pinned tool, get the user's approval, and run each `uvx` call alone in its batch.
 
 ```bash
-CRAPPER=git+https://github.com/unclebob/crapper@9f1bead
+CRAPPER=git+https://github.com/unclebob/crapper@6fd92c4
 DRYER=git+https://github.com/unclebob/dryer@66ff6d2
 BASE=$(git merge-base HEAD origin/<target>)   # uncommitted-only work: BASE=HEAD
 mapfile -t FILES < <(bash <skill>/scripts/changed-files.sh "$BASE")   # always expand as "${FILES[@]}"
@@ -47,6 +47,7 @@ crapper scores whole files; only functions touching the diff are in scope. Each 
 - Every assertion's actual value comes from production code, never from a literal or fixture the test built.
 - A test that would still pass with every production function returning empty or zero tests nothing: rewrite it.
 - Logic sits in modules tests reach; IO stays at a thin edge that re-asks no domain question.
+- `node <skill>/scripts/test-integrity.cjs "$BASE"` prints one row per deleted, skipped, `.only`, assertion-losing or loosened test (Python, Go, TS/JS); no rows is clean. Each row is restored, or named in the reply with its kind and why the test changed.
 
 ## Mutation, on request
 
@@ -56,4 +57,4 @@ When the user asks for mutation testing: [`MUTATION.md`](MUTATION.md).
 
 - `git status --short` matches the snapshot: no new path, no mutated source.
 - `tasklist | grep -iE 'mutator|pytest|python|go\.exe|\.test\.exe|node|vitest'` matches the snapshot; kill leftovers with `taskkill //F //T //PID <pid>`.
-- Reply lists each command with its result: worst in-scope CRAP, duplicate pairs.
+- Reply lists each command with its result: worst in-scope CRAP, duplicate pairs, test-integrity rows with their reasons.
