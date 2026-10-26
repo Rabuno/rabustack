@@ -58,18 +58,18 @@ Generate every approach that's a real fork in the road, investigated, never fake
 
 Done when: one approach is chosen and every losing alternative has a one-line reason.
 
-### Decision gate: hand user-owned decisions to `grilling`
+### Decision gate: hand user-owned decisions to `interview`
 
 Before drafting the plan, audit every decision that affects scope, user-visible behavior, compatibility, rollout, risk tolerance, or a tradeoff between alternatives. Mark each one as either:
 
 - **evidence-settled** — the codebase, tests, docs, or the user's request determines the answer; or
 - **user-owned** — more than one reasonable answer remains and the choice depends on the user's priorities, policy, or risk tolerance.
 
-If any decision is **user-owned**, invoke the `grilling` skill now. Pass it the investigated findings and the recommended answer for the first open decision. `grilling` must ask one question at a time and wait for the user's answer; do not draft the plan, call the plan reviewer, or edit files while that interview is pending. Continue the interview until all user-owned decisions have an explicit answer and grilling confirms shared understanding. Record those answers under `Constraints & Assumptions` and `Key Findings` in Phase 5.
+If any decision is **user-owned**, invoke the `interview` skill now. Pass it the investigated findings and the recommended answer for the first open decision. `interview` must ask one question at a time and wait for the user's answer; do not draft the plan, call the plan reviewer, or edit files while that interview is pending. Continue the interview until all user-owned decisions have an explicit answer and the user confirms shared understanding. Record those answers under `Constraints & Assumptions` and `Key Findings` in Phase 5.
 
-If no user-owned decision remains, record `No grilling required: all decisions are evidence-settled` in the plan's `Open Questions` section. Never skip this audit silently and never resolve a user-owned decision by guessing.
+If no user-owned decision remains, record `No interview required: all decisions are evidence-settled` in the plan's `Open Questions` section. Never skip this audit silently and never resolve a user-owned decision by guessing.
 
-If the fork itself is still open after that — an architecture or technology choice, codebase evidence alone can't settle it, and it's hard to revert — spawn `agentType: oryna` here to get an evidence-researched verdict before committing to an approach. This is for the fork, not the plan: oryna is expensive and OSS-research-heavy, wrong tool for reviewing an already-decided plan (that's Phase 6's job).
+If the fork itself is still open after that — an architecture or technology choice, codebase evidence alone can't settle it, and it's hard to revert — invoke the `oryna` skill here to get an evidence-researched verdict before committing to an approach. This is for the fork, not the plan: oryna is expensive and OSS-research-heavy, wrong tool for reviewing an already-decided plan (that's Phase 6's job).
 
 ---
 
@@ -135,9 +135,7 @@ Any line uncertain to call — treat it as failed.
 
 # Phase 6 — Get Approval
 
-Once the plan (Phase 5) is ready: spawn a review agent on model `opus`, `agentType: Plan` — fresh eyes on the plan, catching gaps before the human reads it — and fold its findings in. If a `planship-mode` reminder for a mode other than `normal` is in context, use the model and effort it specifies instead of `opus` at default effort. Exception: if the plan passes every line of the Trivial Gate, you may re-read it yourself instead — the human approval gate immediately below backstops this case. Done when: the plan reflects the review's findings (or your own re-read), fixed or explicitly rejected.
-
-Log the outcome: create `~/.claude/planship/` if needed, then append one UTF-8 line (`Add-Content -Encoding utf8` on Windows) to `~/.claude/planship/log.jsonl` — `{"ts":"<ISO-8601 UTC>","event":"plan","trivial":true}` if the Trivial Gate passed, `{"ts":"<ISO-8601 UTC>","event":"plan","trivial":false}` otherwise. Append-only, one line per plan, never rewrite or rotate the file.
+Once the plan (Phase 5) is ready: spawn a review agent on model `opus`, `agentType: Plan` — fresh eyes on the plan, catching gaps before the human reads it — and fold its findings in. Exception: if the plan passes every line of the Trivial Gate, you may re-read it yourself instead — the human approval gate immediately below backstops this case. Done when: the plan reflects the review's findings (or your own re-read), fixed or explicitly rejected.
 
 Then call `ExitPlanMode` with the plan and wait for approval — this is the boundary where a Plan/Execute split switches to the execution model. Start implementing only after that call returns approved.
 
@@ -163,8 +161,6 @@ Skip this review only when BOTH hold: (1) the diff passes every line of the Triv
 
 Done when: the review agent has returned and each finding is either fixed or named to the user as an accepted risk.
 
-Log the outcome: append one UTF-8 line to `~/.claude/planship/log.jsonl` — `{"ts":"<ISO-8601 UTC>","event":"review","findings":<N>}`, N = number of findings the review returned (0 if none). This step ran → always log it, regardless of N.
-
 ---
 
 # Phase 9 — Verify
@@ -179,6 +175,6 @@ Ready to ship? Tell the user the `ship-pr` skill can open the PR — don't invok
 
 # Phase 10 — Improve this skill
 
-See [`self-improve-after-running.md`](../self-improve-after-running.md).
+Check the friction list in the `self-improve` skill. No friction: stay silent.
 
 Done when: the friction checklist there is checked — nothing to fix, or a diff was proposed and either applied or declined by the user.
