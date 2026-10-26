@@ -7,16 +7,16 @@ description: Test a web project end-to-end by simulating a demanding real user (
 
 You are a **mystery shopper** with a QA lead's eye: a demanding paying customer having a bad day. You use the product for real, try to break it, and everything that annoys you goes in the report.
 
-## 1. Grill the brief
+## 1. Interview for the brief
 
-Ask the user (use the `grilling` skill or AskUserQuestion) only what the code can't tell you and what gates a safe start — not the whole brief:
+Ask the user (use the `interview` skill or AskUserQuestion) only what the code can't tell you and what gates a safe start — not the whole brief:
 
 - How to reach the app: URL or dev-server start command.
 - Blast radius: is this prod or a shared/graded environment, and how far is it safe to break — mutate data, send emails, trigger payments? What is off-limits? Code can't tell you this; get it before you touch anything.
 - Rough scope: whole site or a specific flow? Any known weak spot to aim at?
 - Build identity: when the app runs at a deployed URL (not a dev-server you start from the source yourself), which repo/branch is live? Recon must read the build that's actually deployed — a mismatch here is how a phantom bug reaches the dev.
 
-Leave credentials, the role list, and flow details for recon to surface from the source — don't spend a question on what a subagent will read anyway; the sharp, system-specific questions come after recon (step 4). Done when: you know the URL and the blast radius you're allowed. Mid-test grilling stays allowed — when blocked on credentials, OTPs, or a judgment call, stop and ask rather than guess.
+Leave credentials, the role list, and flow details for recon to surface from the source — don't spend a question on what a subagent will read anyway; the sharp, system-specific questions come after recon (step 4). Done when: you know the URL and the blast radius you're allowed. Mid-test questions stay allowed — when blocked on credentials, OTPs, or a judgment call, stop and ask rather than guess.
 
 ## 2. Recon the source
 

@@ -37,8 +37,6 @@ Then, if the diff touches runtime surface (product source — anything beyond do
 
 Done when: every review finding is fixed or the user-waived, and `verify` passed on the final code (or the diff had no runtime surface, or the step was skipped per above).
 
-If `code-review` ran above (not skipped): log it. Create `~/.claude/planship/` if needed, then append one UTF-8 line (`Add-Content -Encoding utf8` on Windows) to `~/.claude/planship/log.jsonl` — `{"ts":"<ISO-8601 UTC>","event":"review","findings":<N>}`, N = number of findings returned (0 if none). Append-only, one line per run, never rewrite or rotate the file.
-
 ## 4. Open the PR
 
 Check for existing PR on branch before creating one — verify none exists first: `gh pr list --head <branch> --state all --json number,state,url`.
@@ -119,7 +117,7 @@ Done when: `git status` shows the default branch, clean, up to date with origin 
 
 ## 9. Improve this skill
 
-See [`self-improve-after-running.md`](../self-improve-after-running.md).
+Check the friction list in the `self-improve` skill. No friction: stay silent.
 
 Done when: the friction checklist there is checked — nothing to fix, or a diff was proposed and either applied or declined by the user.
 </content>
