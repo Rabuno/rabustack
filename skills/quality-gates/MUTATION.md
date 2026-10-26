@@ -14,4 +14,14 @@ bash <skill>/scripts/scope-mutants.sh "$BASE" "$OUT"   # SURVIVED/UNCOVERED/TIME
 - Windows `os.killpg` crash on timeout may leave the source mutated: re-run mutator to restore, check `git status`, then raise `--timeout-factor` or test that mutant by hand.
 - A 100% score with no SURVIVED is suspect: spot-check one mutant by hand. A file done in ~2 s may be cached: delete `.metrics/mutate` and re-run.
 
-Each SURVIVED mutant gets a behavior-level test that kills it, or a reason in the reply (equivalent, trivial, killed outside the related set). Each UNCOVERED line gets a test, or is deleted when no caller reaches it (dead code). The reply adds killed/survived/uncovered counts.
+## Survivor triage
+
+Put each SURVIVED mutant in exactly one class:
+
+| Class | Meaning | Ends with |
+|---|---|---|
+| equivalent | the mutated code behaves identically for every input a caller can send (unreachable bound, log text, ordering the contract leaves open) | one line in the reply saying why no input tells the two apart |
+| missing assertion | a test runs the mutated line, yet no assertion reads its effect | a behavior-level test asserting that effect |
+| untested branch | no test drives the input that reaches the mutated branch | a test with that input, asserting the result |
+
+A non-equivalent survivor ends with its killing test (re-run mutator on the file: the mutant reports KILLED), or with one stated reason it stays alive (trivial, killed outside the related set). Each UNCOVERED line gets a test, or is deleted when no caller reaches it (dead code). The reply adds killed/survived/uncovered counts and the class of each survivor.
