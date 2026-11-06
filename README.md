@@ -4,7 +4,7 @@ Agent skills installable with the [`skills`](https://github.com/vercel-labs/skil
 
 ## Skills
 
-- **quality-gates** - CRAP and duplication gates on changed Python, Go and TypeScript code; mutation testing on request.
+- **quality-gates** - before an MR/PR: CRAP and duplication gates, test review and mutation testing on changed Python, Go and TypeScript code (Stryker for C#).
 
 ## Install
 

@@ -6,13 +6,15 @@
 BASE=$1 OUT=$2 W=$3 CMD=$4; shift 4
 export PYTHONUTF8=1  # mutator decodes test output as cp1252 on Windows otherwise and crashes on non-ASCII
 mkdir -p "$OUT"
+MUT=(--from git+https://github.com/unclebob/mutator@a5a0cb803b66e0cdb8bf471b3b08af701d424a41 --with git+https://github.com/unclebob/crapper@6fd92c4c9bcc56efb64a2f8743d5a2993bcfd42d)
+uvx "${MUT[@]}" mutator --help > /dev/null 2>&1
 for f in "$@"; do
   L=$(bash "$(dirname "$0")/lines.sh" "$BASE" "$f")
   if [ -z "$L" ]; then printf '%s\tSKIP-deletions-only\n' "$f" >> "$OUT/summary.tsv"; continue; fi
   args=(); [ "$L" = NEW ] || args=(--lines "$L")
   log="$OUT/$(tr '/[]' '___' <<<"$f").log"
   before=$(git hash-object -- "$f"); s=$(date +%s)
-  uvx --from git+https://github.com/unclebob/mutator@a5a0cb8 --with git+https://github.com/unclebob/crapper@6fd92c4 \
+  uvx --offline "${MUT[@]}" \
     mutator --use-existing-coverage --max-workers "$W" --test-command "$CMD" "$f" "${args[@]}" > "$log" 2>&1
   rc=$?
   counts=$(grep -oE '^[A-Z]+ ' "$log" | sort | uniq -c | awk '{printf "%s=%s ", $2, $1}')
