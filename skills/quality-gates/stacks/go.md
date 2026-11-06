@@ -14,7 +14,7 @@ awk 'NR==1{print;next} {k=$1" "$2; if(!(k in m)||$3>m[k]) m[k]=$3} END{for(k in 
 
 Before mutation (after dryer): mutator wants `internal/...` paths, not module-prefixed ones, else it prints "No coverage data" and reports everything UNCOVERED in seconds. `sed -i "s#^$(go list -m)/##" $P`
 
-Mutation `<cmd>`: `go test ./<pkg> -run '<regex>' -count=1`, the regex naming the file's related tests; add the integration package with its own narrow `-run` when it reaches the file (a whole integration package can take minutes per mutant).
+Mutation `<cmd>`: `go test ./<pkg> -run '<regex>' -count=1`, the regex naming the file's related tests; add the integration package with its own narrow `-run` when it reaches the file (a whole integration package can take minutes per mutant). A regex with `|` (`-run '^TestA(B|C)'`) belongs in a bash script passed as `bash <script>` (see MUTATION.md).
 
 A mutant that cannot compile (`+ -> -` on string concatenation) counts as killed.
 
